@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const District = require('../models/districtModel');
 
-// Route to create a new district
+
 router.post('/', async (req, res) => {
   try {
     const district = new District(req.body);
@@ -13,7 +13,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-// Route to get all districts
+
 router.get('/', async (req, res) => {
   try {
     const districts = await District.find();

@@ -3,33 +3,6 @@ const District = require('../models/districtModel');
 const WeatherData = require('../models/weatherDataModel');
 const router = express.Router();
 const cron = require('node-cron');
-const moment = require('moment');
-
-
-const axios = require('axios');
-
-const fetchData = async () => {
-  try {
-    const response = await axios.get('http://localhost:3000/api/districts');
-    const data = response.data;
-    console.log('Data fetched:', data);
-  } catch (error) {
-    console.error('Error fetching data:', error);
-  }
-};
-
-
-
-fetchData();
-
-
-const intervalId = cron.schedule('*/1 * * * *', async () => {
-  try {
-    await fetchData();
-  } catch (error) {
-    console.error('Error fetching data:', error);
-  }
-});
 
 
 const fetchDistrictDetailsWithWeatherData = async () => {
@@ -52,6 +25,14 @@ const fetchDistrictDetailsWithWeatherData = async () => {
   }
 };
 
+const intervalId = cron.schedule('*/3 * * * * *', async () => {
+  try {
+    await fetchDistrictDetailsWithWeatherData();
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+});
+
 
 router.get('/districts', async (req, res) => {
   try {
@@ -61,7 +42,5 @@ router.get('/districts', async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
-
-
 
 module.exports = router;

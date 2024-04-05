@@ -39,6 +39,7 @@ app.listen(PORT, async () => {
   
   try {
     await insertDistricts();
+    await insertWeatherData();
     console.log('Districts inserted successfully');
   } catch (error) {
     console.error('Error inserting districts:', error.message);
